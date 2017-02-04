@@ -1,4 +1,4 @@
-# ArtAndInteractionMajorProject
+# Art And Interaction Major Project
 
 ## Ideas
 Users will have several minutes to learn about different ghost stories in Indonesia.
