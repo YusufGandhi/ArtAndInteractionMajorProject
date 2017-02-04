@@ -1,4 +1,4 @@
-# Art And Interaction Major Project
+# Art And Interaction In New Media ANU Major Project
 
 ## Ideas
 Users will have several minutes to learn about different ghost stories in Indonesia.
