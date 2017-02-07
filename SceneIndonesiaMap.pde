@@ -4,9 +4,11 @@ class SceneIndonesiaMap extends Scene {
   int indexOfDisplayedImage;
   float topLeftCornerCoordX;
   float topLeftCornerCoordY;
-  
+  Timer timer;
+  DialogBox db; // for containing the name of the island
   
   SceneIndonesiaMap() {
+    db = new DialogBox("",horrorTextColor);
     numOfMapImage = 8;
     indexOfDisplayedImage = 0;
     indonesiaMap = new PImage[numOfMapImage];
@@ -21,9 +23,14 @@ class SceneIndonesiaMap extends Scene {
     topLeftCornerCoordX = width/2-indonesiaMap[indexOfDisplayedImage].width/2;
     topLeftCornerCoordY = height/2-indonesiaMap[indexOfDisplayedImage].height/2;
     println("Indonesia Map's size: " + indonesiaMap[indexOfDisplayedImage].width + "x" + indonesiaMap[indexOfDisplayedImage].height);
+    
+    timer = new Timer();
   }
   
   void display() {
+    if(!timer.running) {
+      timer.start();
+    }
     //background(250);
     pushMatrix();
     //scale(1.5);
@@ -31,8 +38,19 @@ class SceneIndonesiaMap extends Scene {
     image(indonesiaMap[indexOfDisplayedImage],0,0);
     popMatrix();
     
+    // showing the timer on the topleftcorner
+    displayTimer();
+    
     this.checkMousePosition();
     //System.out.println(mouseX + " " + mouseY);
+  }
+  
+  void displayTimer() {
+    pushMatrix();
+    translate(400,100);
+    textAlign(CENTER,CENTER);
+    text(timer.display(),0,0);
+    popMatrix(); 
   }
   
   boolean shouldTransition() {
@@ -42,25 +60,31 @@ class SceneIndonesiaMap extends Scene {
   void checkMousePosition() {
     if(this.isOverSumatra()) {
       indexOfDisplayedImage = 1;
+      db.boxText = "Sumatra";
     } else if(this.isOverJava()) {
-      indexOfDisplayedImage = 2;  
+      indexOfDisplayedImage = 2;
+      db.boxText = "Java";
     } else if(this.isOverKalimantan()) {
       indexOfDisplayedImage = 3;
+      db.boxText = "Kalimantan";
     } else if(this.isOverSulawesi()) {
       indexOfDisplayedImage = 4;
-    
+      db.boxText = "Sulawesi";
     } else if(this.isOverMaluku()) {
       indexOfDisplayedImage = 5;
-    
+      db.boxText = "Maluku";
     } else if(this.isOverPapua()) {
       indexOfDisplayedImage = 6;
-    
+      db.boxText = "Papua";
     } else if(this.isOverNusaTenggara()) {
       indexOfDisplayedImage = 7;
-    
-    }else {
+      db.boxText = "Nusa Tenggara";
+    } else {
       indexOfDisplayedImage = 0;
+      db.boxText = "";
     }
+    
+    db.drawBox(width/2, height / 8 * 7);
   }
   
   // sumatra's width is topLeftCornerCoordX + 400
@@ -131,5 +155,5 @@ class SceneIndonesiaMap extends Scene {
     if((mouseX >= xPos  && mouseX <= xPos + 300) && (mouseY >= yPos  && mouseY <= yPos + 100))
       result = true;
     return result;
-  }
+ }
 }

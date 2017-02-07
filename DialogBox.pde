@@ -17,7 +17,7 @@ class DialogBox {
 
     // set text colour and size
     fill(textColor);//240);
-    textSize(30);
+    textSize(50);
     
     textAlign(CENTER, CENTER);
     text(boxText, x, y); //, boxWidth, boxHeight);
@@ -30,6 +30,14 @@ class DialogBox {
     //}
     //displayCounter++;
     // end of drawing the text (one char at a time)
+  }
+  
+  void drawBox(float x, float y, int textSize) {
+    fill(textColor);//240);
+    textSize(textSize);
+    
+    textAlign(CENTER, CENTER);
+    text(boxText, x, y); //, boxWidth, boxHeight);
   }
 
   boolean isDone() {
