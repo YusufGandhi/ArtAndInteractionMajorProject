@@ -47,7 +47,7 @@ class SceneIndonesiaMap extends Scene {
   
   void displayTimer() {
     pushMatrix();
-    translate(400,100);
+    translate(width/2,100);
     textAlign(CENTER,CENTER);
     text(timer.display(),0,0);
     popMatrix(); 

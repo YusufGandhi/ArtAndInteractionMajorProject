@@ -109,6 +109,8 @@ void draw() {
     case 5: // the Indonesia scene map; no transition needed
       displayCurrentScene();
       break;
+    
+    // scene of each island
     case 6:
     case 7:
     case 8:
