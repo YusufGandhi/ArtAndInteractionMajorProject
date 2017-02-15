@@ -10,10 +10,14 @@ class SceneWithDialogBoxAndImage extends SceneWithDialogBox {
     // by default, the image will be the center of the left side of the screen
     this.imgX = width / 4 - this.img.width / 2;
     this.imgY = height / 2 - this.img.height / 2;
+    
+    this.dbX = width / 2;
+    this.dbY = height / 2;
   }
   
   void display() {
-    super.display();
+    display(LEFT, CENTER, 32);
+    //textFont(horrorFontBody);
     image(img,imgX,imgY);
   }
   

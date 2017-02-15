@@ -15,6 +15,10 @@ class SceneWithDialogBox extends Scene {
     db.drawBox(dbX, dbY);//, width-200, 200, 5);
   }
   
+  void display(int alignX, int alignY, int fontSize) {
+    db.drawBox(dbX,dbY,alignX,alignY,fontSize);    
+  }
+  
   boolean shouldTransition() {
     // transition on click - but you can transition however you like!
     if (db.isDone())
