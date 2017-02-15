@@ -64,7 +64,7 @@ void setup() {
   //indonesiaMap = loadImage("indonesia.png");
   
   // index of the scene that the animation will start
-  sceneIndex = 5;
+  sceneIndex = 0;
   
   // number of scenes 
   numOfScene = 13;
