@@ -19,6 +19,13 @@ class SceneWithDialogBoxAndImage extends SceneWithDialogBox {
     display(LEFT, CENTER, 32);
     //textFont(horrorFontBody);
     image(img,imgX,imgY);
+    
+    // Navigation text
+    //fill(textColor);//240);
+    textSize(30);
+    
+    textAlign(LEFT, CENTER);
+    text("<Press B or left arrow to go to the main map>", 10 , height - 20); //, boxWidth, boxHeight);
   }
   
 }

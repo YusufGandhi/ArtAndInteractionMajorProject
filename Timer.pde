@@ -1,7 +1,7 @@
 class Timer {
   int startTime;
   int stopTime;
-  boolean running; 
+  boolean running;
   
   Timer() {
     startTime = 0; 
@@ -29,6 +29,10 @@ class Timer {
     }
     
     return elapsed;
+  }
+  
+  boolean isTimeUp() {
+    return getElapsedTime() <= 0;
   }
   
   int getSecond() {

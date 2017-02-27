@@ -13,6 +13,8 @@ class SceneWithDialogBox extends Scene {
   
   void display() {
     db.drawBox(dbX, dbY);//, width-200, 200, 5);
+
+    
   }
   
   void display(int alignX, int alignY, int fontSize) {

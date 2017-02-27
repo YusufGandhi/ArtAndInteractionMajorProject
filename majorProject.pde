@@ -55,26 +55,30 @@ PImage indonesiaMap;
 PImage beguGanjang;
 
 Scene [] scene;
+SceneWithDialogBoxAndTimer sceneCorrectAnswer;
+SceneWithDialogBoxAndTimer sceneIncorrectAnswer;
+
+ArrayList<Boolean> correctQuizAnswers;
+int sceneQuiz;
 
 void setup() {
   fullScreen();
   background(10);
   
+  correctQuizAnswers = new ArrayList<Boolean>();
+  
   // loading the Indonesia map
   //indonesiaMap = loadImage("indonesia.png");
   
-  // index of the scene that the animation will start
-  sceneIndex = 0;
   
-  // number of scenes 
-  numOfScene = 13;
   
   // loading the background music
   backgroundMusic = new SoundFile(this, dataPath("lingsirwengi.mp3"));
   
   horrorFont = createFont("csnpwdt NFI.otf",50);
  
-  backgroundMusic.play(0.9);
+  // uncomment this to play the song again
+  //backgroundMusic.play(0.9);
   
   // Ghost descriptions
   String beguGanjangDesc = "Begu Ganjang\n" + 
@@ -129,8 +133,15 @@ void setup() {
                           "her signature laughter";
                           
   String leakDesc = "Leak\n" +
-                    "Leak was a man who happened to know\n" +
+                    "Leak was a human who happened to know\n" +
                     "black magic. ";
+  
+  // index of the scene that the animation will start
+  sceneIndex = 0;
+  
+  // number of scenes 
+  numOfScene = 23;
+  
   // creating all the scenes
   scene = new Scene[numOfScene];
   scene[0] = new SceneWithDialogBox("Indonesia, a country of thousand islands...",width/2,height/4);
@@ -162,6 +173,39 @@ void setup() {
   // Nusa Tenggara
   // Poti seperti kuntilanak
   scene[12] = new SceneWithDialogBoxAndImage(loadImage("leak.jpeg"),leakDesc, width / 2, height /2);
+  
+  // ******** THE QUIZ SECTION *********
+  // Scene 13 - 19
+  // Q1 = Scene 15
+  // Q2 = Scene 16
+  int quizSectionStartIndex = 13;
+  // Time is up scene
+  scene[quizSectionStartIndex++] = new SceneWithDialogBoxAndTimer("time's up!",width/2,height/2,2);
+  
+  scene[quizSectionStartIndex++] = new SceneWithDialogBoxAndTimer("Now's the time for the quiz",width/2,height/2,2);
+  
+  // Question #1
+  scene[quizSectionStartIndex++] = new SceneQuizQuestion("Question #1\nHow tall is Begu Ganjang?","Short","Medium","Tall",'A');
+  
+  // Question #2
+  scene[quizSectionStartIndex++] = new SceneQuizQuestion("Question #2\nWhat's the name of the fire ghost?","Mariaban","Suanggi","Kuntilanak",'B');
+  
+  // Question #3
+  scene[quizSectionStartIndex++] = new SceneQuizQuestion("Question #3","","","",'A');
+  
+  // Question #4
+  scene[quizSectionStartIndex++] = new SceneQuizQuestion("Question #4","","","",'A');
+  
+  // Question #5
+  scene[quizSectionStartIndex] = new SceneQuizQuestion("Question #5","","","",'A');
+  
+  
+  // scene for correct or incorrect answer
+  scene[20] = new SceneWithDialogBoxAndTimer("Correct", width / 2, height / 2, 2);
+  scene[21] = new SceneWithDialogBoxAndTimer("Incorrect", width / 2, height / 2, 2);
+  
+  scene[22] = new SceneWithDialogBox("Game Over", width/2,height/2);
+  
 }
 
 void draw() {
@@ -169,6 +213,7 @@ void draw() {
   pmouseDown = mousePressed;
   background(0);
   textFont(horrorFont);
+ 
   switch(sceneIndex) {
     case 0:
       displayCurrentScene();
@@ -185,8 +230,6 @@ void draw() {
       checkCurrentSceneTransition();
       break;
     case 5: // the Indonesia scene map; no transition needed
-      displayCurrentScene();
-      break;
     
     // scene of each island
     case 6:
@@ -198,6 +241,38 @@ void draw() {
     case 12:
       displayCurrentScene();
       ((SceneIndonesiaMap) scene[5]).displayTimer();
+      if(scene[5].shouldTransition()) {
+        sceneIndex = 13;
+      }
+      break;
+    // --- the quiz scenes   ----
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+      // sceneQuiz is used to detect the current
+      // sceneIndex
+      sceneQuiz = sceneIndex;
+      
+      displayCurrentScene();
+      checkCurrentSceneTransition();
+      displayCheckMark();                                    
+      resetTransitionScene();
+      break;
+    
+    // correct or incorrect answer scenes
+    case 20:
+    case 21:
+      displayCurrentScene();
+      checkCurrentQuizTransition();
+      displayCheckMark();
+      break;
+      
+    case 22:
+      displayCurrentScene();
   }
 }
 
@@ -218,9 +293,31 @@ void displayCurrentScene() {
   scene[sceneIndex].display();
 }
 
+void checkCurrentQuizTransition() {
+  if(scene[sceneIndex].shouldTransition())
+    if (sceneQuiz < 19)
+      sceneIndex = sceneQuiz + 1;
+    else
+      sceneIndex = 22;
+}
+
+
 void checkCurrentSceneTransition() {
   if(scene[sceneIndex].shouldTransition())
     sceneIndex++; 
+}
+
+void resetTransitionScene() {
+  ((SceneWithDialogBoxAndTimer) scene[20]).resetTimer();
+  ((SceneWithDialogBoxAndTimer) scene[21]).resetTimer();
+}
+
+// @param idx the index where the scene wants to transition
+void checkSceneTransition(Scene s, int idx) {
+  if(s.shouldTransition()) {
+    println("Should transition executed");
+    sceneIndex = idx;
+  }
 }
 
 void mousePressed() {
@@ -246,6 +343,33 @@ void mousePressed() {
     } else if(scene5.isOverNusaTenggara()) {
       sceneIndex = 12;
     }
+  } 
+  // ==== QUIZ MOUSE PRESSED EVENT ====
+  
+  else if (sceneIndex >= 15 && sceneIndex <= 19) {
+    SceneQuizQuestion sq = (SceneQuizQuestion) scene[sceneIndex];
+    Boolean answer = null;
+    if(sq.isOverAnswerA()) {
+      answer = sq.checkAnswer('A');
+      sq.isAnswered = true;
+    } else if(sq.isOverAnswerB()) {
+      answer = sq.checkAnswer('B');
+      sq.isAnswered = true;
+    } else if(sq.isOverAnswerC()) {
+      answer = sq.checkAnswer('C');
+      sq.isAnswered = true;
+    }
+    
+    // put the answer into an array list
+    // if the answer is not null
+    if (answer != null) {
+      if (answer == true) {
+        sceneIndex = 20;
+      } else {
+        sceneIndex = 21;
+      }
+      correctQuizAnswers.add(answer);
+    }
   }
 }
 
@@ -257,5 +381,24 @@ void keyPressed() {
     if (keyCode == 37 || keyCode == 66) {
       sceneIndex = 5; 
     }
-  }
+  } 
+}
+
+// This is for displaying correct/incorrect quiz answers
+void displayCheckMark() {
+    for(int i = 0; i < 5; i++) {
+      stroke(250,3,3,255);
+      if(i < correctQuizAnswers.size()) {
+        if(correctQuizAnswers.get(i)) {
+          stroke(3,200,3,255);
+          fill(0,200,0);
+        } else {
+          fill(255,3,3);
+        }
+      } else {
+        fill(0);
+      }
+      //rect(25 * i, 10, 20, 20);
+      ellipse(25 * i + 10, 10,   20, 20);
+    }
 }

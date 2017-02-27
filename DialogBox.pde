@@ -40,6 +40,14 @@ class DialogBox {
     text(boxText, x, y); //, boxWidth, boxHeight);
   }
   
+  void drawBox(float x, float y, int alignX, int alignY, int textSize, color t) {
+    fill(t);//240);
+    textSize(textSize);
+    
+    textAlign(alignX, alignY);
+    text(boxText, x, y); //, boxWidth, boxHeight);
+  }
+  
   void drawBox(float x, float y, int textSize) {
     fill(textColor);//240);
     textSize(textSize);
