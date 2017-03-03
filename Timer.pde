@@ -10,7 +10,7 @@ class Timer {
   }
   
   void start() {
-    startTime = millis() + 121000; // 2 minutes in milliseconds
+    startTime = millis() + 61000;//121000; // 1 minutes in milliseconds (1 seconds
     running = true;
   }
   

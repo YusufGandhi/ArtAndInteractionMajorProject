@@ -83,7 +83,7 @@ class SceneIndonesiaMap extends Scene {
       db.boxText = "Papua";
     } else if (this.isOverNusaTenggara()) {
       indexOfDisplayedImage = 7;
-      db.boxText = "Nusa Tenggara";
+      db.boxText = "Bali-Nusa Tenggara";
     } else {
       indexOfDisplayedImage = 0;
       db.boxText = "";
