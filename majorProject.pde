@@ -143,8 +143,8 @@ void setup() {
                           "on a big, creepy tree.\n\n" +
                           "She is wandering to look for her\n" +
                           "dead child. And you can know her by\n" +
-                          "her signature laughter\n\n" + 
-                          "Click anywhere to listen to\nlaughter sound";
+                          "her distinctive laugh\n\n" + 
+                          "Click anywhere to listen to\nher laughter";
                           
   String leakDesc = "Leak\n" +
                     "Leak is a human who practices\n" +
@@ -155,7 +155,7 @@ void setup() {
                     "Leak feeds on corpses and haunt graveyards...";
   
   // index of the scene that the animation will start
-  sceneIndex = 5;
+  sceneIndex = 0;
   
   // number of scenes 
   numOfScene = 32;
@@ -163,13 +163,8 @@ void setup() {
   // creating all the scenes
   //scene = new Scene[numOfScene];
   scene = new ArrayList<Scene>();
-  //scene[0] = new SceneWithDialogBox("Indonesia, a country of thousand islands...",width/2,height/4);
-  //scene[1] = new SceneWithDialogBox("of hundreds local dialects...",width/2,height/2);
-  //scene[2] = new SceneWithDialogBox("and of dozens...",width/2,height/4*3);
-  //scene[3] = new SceneWithDialogBox("GHOST STORIES",width/2,height/2);
-  //scene[4] = new SceneWithDialogBox("You have 2 minutes to learn about different ghosts\nfrom different parts of Indonesia",width/2,height/2);
-  //scene[5] = new SceneIndonesiaMap();
-  
+ 
+  // scene 0 - 5
   scene.add(new SceneWithDialogBoxAndTimer("Indonesia, a country of thousand islands...",width/2,height/4,2));
   scene.add(new SceneWithDialogBoxAndTimer("of hundreds local dialects...",width/2,height/2,2));
   scene.add(new SceneWithDialogBoxAndTimer("and of dozens...",width/2,height/4*3,2));
@@ -212,15 +207,13 @@ void setup() {
   // Q1 = Scene 15
   // Q2 = Scene 16
   
-  //int quizSectionStartIndex = 13;
-  // Time is up scene
+  // Time is up scene 13
   scene.add(new SceneWithDialogBoxAndTimer("time's up!",width/2,height/2,2));
   
-  //scene[quizSectionStartIndex++] = new SceneWithDialogBoxAndTimer("Now's the time for the quiz",width/2,height/2,2);
+  // 14
   scene.add(new SceneWithDialogBoxAndTimer("Now's the time for the quiz",width/2,height/2,2));
   
   // Question #1
-  //scene[quizSectionStartIndex++] = new SceneQuizQuestion("Question #1\nHow tall is Begu Ganjang?","Short","Medium","Tall",'A');
   scene.add(new SceneQuizQuestion("Question #1\nHow tall is Begu Ganjang?","Extremely tall","Medium","Just like a dwarf",'A'));
   
   // Question #2
@@ -233,7 +226,6 @@ void setup() {
   scene.add(new SceneQuizQuestion("Question #4\nWhat does Kuntilanak look for?","Money","Her child","Nothing",'B'));
   
   // Question #5
-  //scene[quizSectionStartIndex] = new SceneQuizQuestion("Question #5","","","",'A');
   scene.add(new SceneQuizQuestion("Question #5\nWhich place does leak usually haunt?","Graveyards","Empty rooms","Toilets",'A'));
   
   
@@ -600,7 +592,6 @@ void mousePressed() {
   // ==== QUIZ MOUSE PRESSED EVENT ====
   
   else if (sceneIndex >= 15 && sceneIndex <= 19) {
-    //SceneQuizQuestion sq = (SceneQuizQuestion) scene[sceneIndex];
     SceneQuizQuestion sq = (SceneQuizQuestion) scene.get(sceneIndex);
     Boolean answer = null;
     if(sq.isOverAnswerA()) {
